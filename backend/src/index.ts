@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import { Song, Team, Game, GameState } from './types';
 import { songPool as defaultSongPool } from './songPool';
 
@@ -11,6 +12,11 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from frontend build in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+}
 
 // Custom song pool (can be updated via API)
 let customSongPool: Song[] = [];
@@ -262,6 +268,13 @@ app.delete('/api/songs', (req, res) => {
   customSongPool = [];
   res.json({ message: 'Custom songs cleared, using default pool', total: defaultSongPool.length });
 });
+
+// Catch-all route for frontend SPA in production
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
