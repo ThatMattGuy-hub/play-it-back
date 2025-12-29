@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Play It Back - The Music Timeline Game",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
