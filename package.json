@@ -4,7 +4,7 @@
   "description": "Play It Back - The Music Timeline Game",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "scripts": {
     "dev": "cd frontend && npm run dev",
